@@ -22,6 +22,20 @@ export default defineNuxtConfig({
   vite: {
     plugins: [tailwindcss()],
   },
+  supabase: {
+    redirectOptions: {
+      login: "/login",
+      callback: "/confirm",
+    },
+    clientOptions: {
+      auth: {
+        persistSession: false,
+      },
+    },
+    cookieOptions: {
+      maxAge: 5,
+    },
+  },
   fonts: {
     families: [
       {

@@ -2,9 +2,9 @@
 const LogOut = async () => {
   const supabase = useSupabaseClient();
   try {
-    const { error } = await supabase.auth.signOut();
-    if (error) throw error;
+    await supabase.auth.signOut();
     console.log("Logged out successfully");
+    navigateTo("/login");
   } catch (error) {
     console.error("Error logging out:", error);
   }

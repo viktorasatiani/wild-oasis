@@ -2,7 +2,6 @@
 import type * as z from "zod";
 import type { FormSubmitEvent } from "@nuxt/ui";
 import type { SignUpSchema } from "~/utils/schemas";
-import { options } from "#build/eslint.config.mjs";
 const supabase = useSupabaseClient();
 type Schema = z.output<typeof SignUpSchema>;
 
@@ -16,11 +15,10 @@ const LogIn = async (values: { email: string; password: string }) => {
     const { data } = await supabase.auth.signInWithPassword({
       email: values.email,
       password: values.password,
-      options: {
-        navigateTo: "/dashboard",
-      },
     });
-
+    if (data.user) {
+      navigateTo("/dashboard");
+    }
     console.log("Login in response:", data);
   } catch (error) {
     console.error("Error logging in:", error);
