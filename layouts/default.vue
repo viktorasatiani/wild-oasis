@@ -1,5 +1,3 @@
-<script setup></script>
-
 <template>
   <div class="bg-grey-50 flex h-screen w-screen">
     <aside

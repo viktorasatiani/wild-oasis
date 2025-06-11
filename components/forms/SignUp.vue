@@ -1,0 +1,92 @@
+<script setup lang="ts">
+import type * as z from "zod";
+import type { FormSubmitEvent } from "@nuxt/ui";
+import type { SignUpSchema } from "~/utils/schemas";
+
+const supabase = useSupabaseClient();
+
+const signUp = async (values: { email: string; password: string }) => {
+  console.log(values);
+  try {
+    const { data, error } = await supabase.auth.signUp({
+      email: values.email,
+      password: values.password,
+    });
+    console.log("Sign up response:", data, error);
+  } catch (error) {
+    console.error("Error signing up:", error);
+    throw error;
+  }
+};
+
+type Schema = z.output<typeof SignUpSchema>;
+
+const state = reactive<Partial<Schema>>({
+  email: undefined,
+  password: undefined,
+});
+
+const toast = useToast();
+async function onSubmit(event: FormSubmitEvent<Schema>) {
+  const values = { ...event.data };
+  console.log("Form submitted with values:", values);
+
+  await signUp(values);
+
+  toast.add({
+    title: "Success",
+    description: "The form has been submitted.",
+    color: "success",
+  });
+}
+</script>
+
+<template>
+  <UForm
+    :schema="SignUpSchema"
+    :state="state"
+    class="flex w-full flex-col items-center justify-center space-y-6 py-6"
+    loading-auto
+    @submit="onSubmit"
+  >
+    <UFormField
+      label="Email"
+      name="email"
+      required
+      size="lg"
+      :ui="{ label: 'font-bold' }"
+      class="w-1/2"
+    >
+      <UInput
+        v-model="state.email"
+        placeholder="Enter Your Email"
+        class="w-full"
+      />
+    </UFormField>
+
+    <UFormField
+      label="Password"
+      name="password"
+      required
+      size="lg"
+      class="w-1/2"
+      :ui="{ label: 'font-bold' }"
+    >
+      <UInput
+        v-model="state.password"
+        type="password"
+        class="w-full"
+        placeholder="Enter Your Password"
+      />
+    </UFormField>
+
+    <UButton
+      type="submit"
+      class="flex w-1/2 items-center justify-center"
+      label="Sign Up"
+      variant="solid"
+      color="info"
+      size="md"
+    />
+  </UForm>
+</template>
