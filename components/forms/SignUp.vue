@@ -5,12 +5,21 @@ import type { SignUpSchema } from "~/utils/schemas";
 
 const supabase = useSupabaseClient();
 
-const signUp = async (values: { email: string; password: string }) => {
+const signUp = async (values: {
+  email: string;
+  password: string;
+  userName: string;
+}) => {
   console.log(values);
   try {
     const { data } = await supabase.auth.signUp({
       email: values.email,
       password: values.password,
+      options: {
+        data: {
+          name: values.userName,
+        },
+      },
     });
     if (data.user) {
       toast.add({
@@ -37,6 +46,7 @@ type Schema = z.output<typeof SignUpSchema>;
 const state = reactive<Partial<Schema>>({
   email: undefined,
   password: undefined,
+  userName: undefined,
 });
 
 const toast = useToast();
@@ -90,6 +100,21 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         type="password"
         class="w-full"
         placeholder="Enter Your Password"
+      />
+    </UFormField>
+
+    <UFormField
+      label="userName"
+      name="userName"
+      required
+      size="lg"
+      class="w-1/2"
+      :ui="{ label: 'font-bold' }"
+    >
+      <UInput
+        v-model="state.userName"
+        class="w-full"
+        placeholder="Enter Your userName"
       />
     </UFormField>
 
