@@ -1,12 +1,31 @@
 <script setup lang="ts">
 const LogOut = async () => {
   const supabase = useSupabaseClient();
+  const toast = useToast();
   try {
-    await supabase.auth.signOut();
-    console.log("Logged out successfully");
-    navigateTo("/login");
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      throw error;
+    }
+    toast.add({
+      title: "Success",
+      description: "LogOut Successful.",
+      color: "success",
+      "onUpdate:open": (open: boolean) => {
+        if (!open) {
+          console.log("Toast closed");
+          navigateTo("/login");
+        }
+      },
+      duration: 1000,
+    });
   } catch (error) {
-    console.error("Error logging out:", error);
+    toast.add({
+      title: "Error! Something went wrong.",
+      description: `${error}`,
+      icon: "heroicons-solid:exclamation",
+      color: "error",
+    });
   }
 };
 </script>

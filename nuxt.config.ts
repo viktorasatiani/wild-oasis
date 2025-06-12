@@ -23,19 +23,17 @@ export default defineNuxtConfig({
     plugins: [tailwindcss()],
   },
   supabase: {
-    redirectOptions: {
-      login: "/login",
-      callback: "/confirm",
-    },
     clientOptions: {
       auth: {
         persistSession: false,
       },
     },
     cookieOptions: {
-      maxAge: 5,
+      maxAge: 0,
     },
+    cookiePrefix: "nekot",
   },
+
   fonts: {
     families: [
       {
@@ -52,6 +50,15 @@ export default defineNuxtConfig({
   app: {
     head: {
       title: "Wild Oasis",
+      titleTemplate: "%s - Wild Oasis",
+    },
+    pageTransition: {
+      name: "page",
+      mode: "out-in",
+    },
+    layoutTransition: {
+      name: "layout",
+      mode: "out-in",
     },
   },
 });

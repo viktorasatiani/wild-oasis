@@ -8,11 +8,24 @@ const supabase = useSupabaseClient();
 const signUp = async (values: { email: string; password: string }) => {
   console.log(values);
   try {
-    const { data, error } = await supabase.auth.signUp({
+    const { data } = await supabase.auth.signUp({
       email: values.email,
       password: values.password,
     });
-    console.log("Sign up response:", data, error);
+    if (data.user) {
+      toast.add({
+        title: "Success",
+        description: "Sign Up Successful.",
+        color: "success",
+        "onUpdate:open": (open: boolean) => {
+          if (!open) {
+            console.log("Toast closed");
+            navigateTo("/dashboard");
+          }
+        },
+        duration: 1000,
+      });
+    }
   } catch (error) {
     console.error("Error signing up:", error);
     throw error;

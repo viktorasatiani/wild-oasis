@@ -10,6 +10,6 @@ export default defineNuxtRouteMiddleware(async (to) => {
     return navigateTo("/login");
   } else if (user && to.path === "/login") {
     console.log(user, "already logged in");
-    return navigateTo("/dashboard", {});
+    return navigateTo("/dashboard");
   }
 });

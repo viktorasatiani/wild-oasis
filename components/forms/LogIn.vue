@@ -2,7 +2,11 @@
 import type * as z from "zod";
 import type { FormSubmitEvent } from "@nuxt/ui";
 import type { SignUpSchema } from "~/utils/schemas";
+
 const supabase = useSupabaseClient();
+const isLoading = ref(false);
+
+const toast = useToast();
 type Schema = z.output<typeof SignUpSchema>;
 
 const state = reactive<Partial<Schema>>({
@@ -11,30 +15,48 @@ const state = reactive<Partial<Schema>>({
 });
 
 const LogIn = async (values: { email: string; password: string }) => {
+  isLoading.value = true;
   try {
-    const { data } = await supabase.auth.signInWithPassword({
+    const { data, error } = await supabase.auth.signInWithPassword({
       email: values.email,
       password: values.password,
     });
     if (data.user) {
-      navigateTo("/dashboard");
+      toast.add({
+        title: "Success",
+        description: "Logged in successfully.",
+        color: "success",
+        "onUpdate:open": (open: boolean) => {
+          if (!open) {
+            console.log("Toast closed");
+            navigateTo("/dashboard");
+          }
+        },
+        duration: 1000,
+      });
     }
+
     console.log("Login in response:", data);
+    if (error) {
+      throw error;
+    }
   } catch (error) {
+    toast.add({
+      title: "Error! Something went wrong.",
+      description: `${error}`,
+      icon: "heroicons-solid:exclamation",
+      color: "error",
+    });
     console.error("Error logging in:", error);
     throw error;
+  } finally {
+    isLoading.value = false;
   }
 };
 
-const toast = useToast();
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   console.log(event.data);
   await LogIn(event.data);
-  toast.add({
-    title: "Success",
-    description: "The form has been submitted.",
-    color: "success",
-  });
 }
 </script>
 
