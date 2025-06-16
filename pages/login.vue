@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import type { TabsItem } from "@nuxt/ui";
-import LogIn from "~/components/forms/LogIn.vue";
-import SignUp from "~/components/forms/SignUp.vue";
 definePageMeta({
   layout: "login",
 });
@@ -33,7 +31,7 @@ const items = [
           <h1 class="text-center font-semibold">
             {{ item.content }}
           </h1>
-          <SignUp />
+          <FormsSignUp />
         </div>
       </Transition>
     </template>
@@ -43,7 +41,7 @@ const items = [
           <h1 class="text-center font-semibold">
             {{ item.content }}
           </h1>
-          <LogIn />
+          <FormsLogIn />
         </div>
       </Transition>
     </template>

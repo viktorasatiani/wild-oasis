@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import type * as z from "zod";
 import type { FormSubmitEvent } from "@nuxt/ui";
-import type { SignUpSchema } from "~/utils/schemas";
+import type { LoginSchema } from "~/utils/schemas";
 
 const supabase = useSupabaseClient();
-const isLoading = ref(false);
 
 const toast = useToast();
-type Schema = z.output<typeof SignUpSchema>;
+type Schema = z.output<typeof LoginSchema>;
 
 const state = reactive<Partial<Schema>>({
   email: undefined,
@@ -15,7 +14,6 @@ const state = reactive<Partial<Schema>>({
 });
 
 const LogIn = async (values: { email: string; password: string }) => {
-  isLoading.value = true;
   try {
     const { data, error } = await supabase.auth.signInWithPassword({
       email: values.email,
@@ -36,7 +34,6 @@ const LogIn = async (values: { email: string; password: string }) => {
       });
     }
 
-    console.log("Login in response:", data);
     if (error) {
       throw error;
     }
@@ -49,20 +46,17 @@ const LogIn = async (values: { email: string; password: string }) => {
     });
     console.error("Error logging in:", error);
     throw error;
-  } finally {
-    isLoading.value = false;
   }
 };
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
-  console.log(event.data);
   await LogIn(event.data);
 }
 </script>
 
 <template>
   <UForm
-    :schema="SignUpSchema"
+    :schema="LoginSchema"
     :state="state"
     class="flex w-full flex-col items-center justify-center space-y-6 py-6"
     :loading-auto="true"

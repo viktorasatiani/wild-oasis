@@ -1,5 +1,11 @@
 <script setup lang="ts">
 const user = useSupabaseUser();
+// Create a reactive state and set default value
+const userName = useState(
+  "userName",
+  () => user.value?.user_metadata?.name || "Guest",
+);
+
 console.log("User:", user.value);
 </script>
 <template>
@@ -9,6 +15,6 @@ console.log("User:", user.value);
       size="lg"
       alt="Benjamin Canac"
     />
-    <span>Benjamin </span>
+    <span>{{ userName.toUpperCase() }}</span>
   </div>
 </template>
