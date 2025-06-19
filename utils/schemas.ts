@@ -13,5 +13,5 @@ export const LoginSchema = z.object({
 export const UpdateDataSchema = z.object({
   userName: z.string().min(3, "Must be at least 3 characters").optional(),
   email: z.string().email("Invalid email").optional(),
-  avatar: z.string().min(8, "Must be at least 8 characters").optional(),
+  avatar: z.instanceof(File).optional(),
 });
