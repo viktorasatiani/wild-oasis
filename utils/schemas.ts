@@ -15,3 +15,8 @@ export const UpdateDataSchema = z.object({
   email: z.string().email("Invalid email").optional(),
   avatar: z.instanceof(File).optional(),
 });
+
+export const ChangePasswordSchema = z.object({
+  newPassword: z.string().min(8, "Must be at least 8 characters"),
+  confirmPassword: z.string().min(8, "Must be at least 8 characters"),
+});

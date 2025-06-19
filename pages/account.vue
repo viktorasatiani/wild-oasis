@@ -1,7 +1,9 @@
 <template>
-  <div class="flex flex-col p-14">
+  <div class="flex flex-col px-14 py-6">
     <h1 class="text-3xl font-bold tracking-wider">Update Your Account</h1>
     <UserUpdateData />
-    <div><h1 class="text-lg font-bold">Update Password</h1></div>
+    <div>
+      <UserUpdatePassword />
+    </div>
   </div>
 </template>

@@ -87,23 +87,17 @@ async function UpdateUser(userName: string, avatar: File) {
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   await UpdateUser(event.data.userName as string, event.data.avatar as File);
-  toast.add({
-    title: "Success",
-    description: "The form has been submitted.",
-    color: "success",
-  });
-  console.log(event.data);
 }
 </script>
 
 <template>
-  <div class="flex flex-col gap-8 py-14">
+  <div class="flex flex-col gap-8 py-4">
     <h1 class="text-2xl font-bold">Update User Data</h1>
     <UForm
       ref="form"
       :schema="UpdateDataSchema"
       :state="state"
-      class="bg-grey-100 space-y-4 rounded-sm p-8"
+      class="bg-grey-100 space-y-2 rounded-sm px-4 py-2"
       @submit="onSubmit"
     >
       <div class="border-b-grey-200 flex gap-12 border-b py-4">
@@ -142,11 +136,16 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         </UFormField>
       </div>
       <div class="flex justify-end pt-4">
-        <UButton type="submit" class="bg-grey-200 text-grey-900">
-          Submit
+        <UButton
+          type="submit"
+          class="bg-brand-600 text-brand-50 hover:bg-brand-700 px-4 py-2 uppercase"
+          size="lg"
+        >
+          Update Data
         </UButton>
         <UButton
-          class="bg-grey-200 text-grey-900 ml-2"
+          class="bg-grey-200 text-grey-900 hover:bg-grey-50 ml-2 px-4 py-2 uppercase"
+          size="lg"
           @click="
             state.email = '';
             state.userName = '';
