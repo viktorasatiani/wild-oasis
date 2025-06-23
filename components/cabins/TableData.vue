@@ -174,6 +174,7 @@ function getRowItems(row: Row<Cabin>) {
       icon: "heroicons-solid:trash",
       onSelect: async () => {
         await handleDeleteCabin(Number(row.original.id));
+        props.refresh();
       },
     },
   ];

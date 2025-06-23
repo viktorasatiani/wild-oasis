@@ -4,7 +4,7 @@ const toast = useToast();
 const {
   data: cabins,
   error,
-  refresh,
+  execute: refresh,
 } = await useAsyncData("cabins", async () => {
   const { data } = await supabase.from("cabins").select("*");
   return data;
