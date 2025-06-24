@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { TableColumn } from "@nuxt/ui";
-import { useClipboard } from "@vueuse/core";
 import type { Row } from "@tanstack/vue-table";
-const supabase = useSupabaseClient();
+import type { Database } from "~/types/database.types";
+const supabase = useSupabaseClient<Database>();
 // import { useSortable } from "@vueuse/integrations/useSortable.mjs";
 const props = defineProps<{
   cabins: Cabin[];
@@ -12,7 +12,6 @@ const props = defineProps<{
 const UButton = resolveComponent("UButton");
 const UDropdownMenu = resolveComponent("UDropdownMenu");
 const toast = useToast();
-const { copy } = useClipboard();
 
 async function handleDeleteCabin(id: number) {
   console.log("Deleting cabin with ID:", id);
@@ -164,7 +163,6 @@ function getRowItems(row: Row<Cabin>) {
       label: "Edit",
       icon: "heroicons-solid:wrench-screwdriver",
       onSelect() {
-        copy(row.original.id);
         navigateTo(`/edit-cabin/${row.original.id}`);
       },
     },

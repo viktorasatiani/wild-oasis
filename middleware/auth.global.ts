@@ -1,5 +1,6 @@
+import type { Database } from "~/types/database.types";
 export default defineNuxtRouteMiddleware(async (to) => {
-  const supabase = useSupabaseClient();
+  const supabase = useSupabaseClient<Database>();
   // isAuthenticated() is an example method verifying if a user is authenticated
   const {
     data: { user },

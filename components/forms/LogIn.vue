@@ -2,8 +2,9 @@
 import type * as z from "zod";
 import type { FormSubmitEvent } from "@nuxt/ui";
 import type { LoginSchema } from "~/utils/schemas";
+import type { Database } from "~/types/database.types";
 
-const supabase = useSupabaseClient();
+const supabase = useSupabaseClient<Database>();
 
 const toast = useToast();
 type Schema = z.output<typeof LoginSchema>;

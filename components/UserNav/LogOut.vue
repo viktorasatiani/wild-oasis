@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import type { Database } from "~/types/database.types";
+
 const LogOut = async () => {
-  const supabase = useSupabaseClient();
+  const supabase = useSupabaseClient<Database>();
   const toast = useToast();
   try {
     const { error } = await supabase.auth.signOut();

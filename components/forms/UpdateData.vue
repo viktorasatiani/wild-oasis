@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import type * as z from "zod";
 import type { FormSubmitEvent } from "@nuxt/ui";
-const supabase = useSupabaseClient();
+import type { Database } from "~/types/database.types";
+
+const supabase = useSupabaseClient<Database>();
 const user = useSupabaseUser();
 const form = useTemplateRef("form");
 type Schema = z.output<typeof UpdateDataSchema>;

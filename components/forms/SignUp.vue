@@ -2,8 +2,9 @@
 import type * as z from "zod";
 import type { FormSubmitEvent } from "@nuxt/ui";
 import type { SignUpSchema } from "~/utils/schemas";
+import type { Database } from "~/types/database.types";
 
-const supabase = useSupabaseClient();
+const supabase = useSupabaseClient<Database>();
 
 const signUp = async (values: {
   email: string;

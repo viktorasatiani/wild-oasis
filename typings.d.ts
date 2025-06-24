@@ -6,13 +6,13 @@ declare global {
   }
 
   type Cabin = {
-    $createdAt: string;
-    id: string;
-    image: string;
-    name: string;
-    capacity: number;
-    price: number;
-    discount: number;
+    capacity: number | null;
+    createad_at: string | null;
+    discount: number | null;
+    id: number;
+    image: string | null;
+    name: string | null;
+    price: number | null;
   };
 }
 
