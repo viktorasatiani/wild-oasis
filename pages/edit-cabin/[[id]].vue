@@ -17,7 +17,6 @@ const { data: cabinData } = await useAsyncData<Cabin[] | null>(
     return data as Cabin[] | null;
   },
 );
-console.log("cabinData", cabinData.value);
 </script>
 
 <template>
