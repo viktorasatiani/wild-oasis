@@ -14,6 +14,14 @@ declare global {
     name: string | null;
     price: number | null;
   };
+
+  type UpdateCabin = {
+    capacity: number | undefined;
+    discount: number | undefined;
+    id: number;
+    name: string | undefined;
+    price: number | undefined;
+  };
 }
 
 export {};

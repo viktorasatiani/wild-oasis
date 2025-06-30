@@ -20,11 +20,21 @@ const { data: cabinData } = await useAsyncData<Cabin[] | null>(
 </script>
 
 <template>
-  <div class="flex h-full flex-col items-center justify-center p-8">
-    <h1 class="mb-4 text-2xl font-bold">Edit Cabin</h1>
+  <div class="flex h-full flex-col items-center justify-center py-8">
+    <div class="mb-4 flex w-full items-center justify-start px-10">
+      <div class="basis-[45%] justify-self-start">
+        <UButton
+          :to="'/cabins'"
+          variant="ghost"
+          :icon="'heroicons-solid:arrow-left'"
+          class="rounded-full text-gray-500 hover:cursor-pointer hover:bg-gray-700 hover:text-gray-100"
+        />
+      </div>
+      <h1 class="text-2xl font-bold">Edit Cabin</h1>
+    </div>
     <div
       v-if="cabinData"
-      class="mt-14 flex h-full w-full gap-8 border border-red-700 py-10"
+      class="border-brand-900/10 mt-14 flex h-full w-full max-w-[1000px] gap-8 border px-6 py-10 shadow-2xl"
     >
       <NuxtImg
         fit="cover"

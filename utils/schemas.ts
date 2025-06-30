@@ -20,3 +20,11 @@ export const ChangePasswordSchema = z.object({
   newPassword: z.string().min(8, "Must be at least 8 characters"),
   confirmPassword: z.string().min(8, "Must be at least 8 characters"),
 });
+
+export const UpdateCabinSchema = z.object({
+  name: z.string().min(1, "Cabin name is required"),
+  capacity: z.number().min(1, "Capacity must be at least 1").optional(),
+  price: z.number().min(0, "Price must be at least 0").optional(),
+  discount: z.number().min(0, "Discount must be at least 0").optional(),
+  image: z.string().optional(),
+});
