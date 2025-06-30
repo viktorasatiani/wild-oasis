@@ -28,3 +28,15 @@ export const UpdateCabinSchema = z.object({
   discount: z.number().min(0, "Discount must be at least 0").optional(),
   image: z.string().optional(),
 });
+
+export const CreateCabinSchema = z.object({
+  name: z.string().min(3, "Must be at least 3 characters"),
+  capacity: z.number().min(1, "Must be at least 1"),
+  price: z.number().min(0, "Must be at least 0"),
+  discount: z
+    .number()
+    .min(0, "Must be at least 0")
+    .max(100, "Must be at most 100"),
+  description: z.string().optional(),
+  image: z.instanceof(File).optional(),
+});

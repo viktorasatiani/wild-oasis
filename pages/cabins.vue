@@ -18,7 +18,6 @@ if (error.value) {
     color: "error",
   });
 }
-console.log("Cabins data:", cabins);
 </script>
 <template>
   <div class="px-14 py-8">
@@ -27,11 +26,7 @@ console.log("Cabins data:", cabins);
     </div>
     <div v-if="cabins">
       <CabinsTableData :cabins :refresh="refresh" />
-      <UButton
-        class="bg-brand-600 text-brand-50 hover:bg-brand-700 px-4 py-2 uppercase hover:cursor-pointer"
-        size="lg"
-        >Add New Cabin</UButton
-      >
     </div>
+    <CabinsAddModal />
   </div>
 </template>

@@ -3,7 +3,6 @@ import type { TableColumn } from "@nuxt/ui";
 import type { Row } from "@tanstack/vue-table";
 import type { Database } from "~/types/database.types";
 const supabase = useSupabaseClient<Database>();
-// import { useSortable } from "@vueuse/integrations/useSortable.mjs";
 const props = defineProps<{
   cabins: Cabin[];
   refresh: () => void;
@@ -177,10 +176,6 @@ function getRowItems(row: Row<Cabin>) {
     },
   ];
 }
-
-// useSortable(".my-table-tbody", props.cabins, {
-//   animation: 150,
-// });
 </script>
 
 <template>
