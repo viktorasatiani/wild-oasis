@@ -9,7 +9,6 @@ type CreateCabin = {
   capacity: number;
   price: number;
   discount: number;
-  description: string;
   image: File;
 };
 const state = reactive<Partial<Schema>>({
@@ -17,7 +16,6 @@ const state = reactive<Partial<Schema>>({
   capacity: undefined,
   price: undefined,
   discount: undefined,
-  description: undefined,
   image: undefined,
 });
 
@@ -61,7 +59,6 @@ async function createCabin({ cabin }: { cabin: CreateCabin }) {
         capacity: cabin.capacity,
         price: cabin.price,
         discount: cabin.discount,
-        description: cabin.description,
         image: cabinUrl,
       });
       if (error) {
@@ -94,7 +91,6 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         capacity: event.data.capacity,
         price: event.data.price,
         discount: event.data.discount,
-        description: event.data.description as string,
         image: event.data.image as File,
       },
     });
@@ -168,19 +164,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         />
       </UFormField>
     </div>
-    <div class="border-b-grey-200 flex gap-12 border-b py-4">
-      <label for="description" class="w-1/5 font-semibold">Description</label>
-      <UFormField name="description">
-        <UInput
-          id="description"
-          v-model="state.description"
-          color="info"
-          :ui="{
-            base: ' disabled:bg-grey-50/10',
-          }"
-        />
-      </UFormField>
-    </div>
+
     <div class="border-b-grey-200 flex gap-12 border-b py-4">
       <label for="avatar" class="w-1/5 font-semibold">Avatar URL</label>
       <UFormField name="avatar">
