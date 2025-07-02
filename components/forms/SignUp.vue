@@ -5,13 +5,18 @@ import type { SignUpSchema } from "~/utils/schemas";
 import type { Database } from "~/types/database.types";
 
 const supabase = useSupabaseClient<Database>();
-
+const toast = useToast();
+type Schema = z.output<typeof SignUpSchema>;
+const state = reactive<Partial<Schema>>({
+  email: undefined,
+  password: undefined,
+  userName: undefined,
+});
 const signUp = async (values: {
   email: string;
   password: string;
   userName: string;
 }) => {
-  console.log(values);
   try {
     const { data } = await supabase.auth.signUp({
       email: values.email,
@@ -42,26 +47,10 @@ const signUp = async (values: {
   }
 };
 
-type Schema = z.output<typeof SignUpSchema>;
-
-const state = reactive<Partial<Schema>>({
-  email: undefined,
-  password: undefined,
-  userName: undefined,
-});
-
-const toast = useToast();
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   const values = { ...event.data };
-  console.log("Form submitted with values:", values);
 
   await signUp(values);
-
-  toast.add({
-    title: "Success",
-    description: "The form has been submitted.",
-    color: "success",
-  });
 }
 </script>
 

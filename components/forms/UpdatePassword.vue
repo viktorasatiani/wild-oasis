@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import type * as z from "zod";
 import type { FormSubmitEvent } from "@nuxt/ui";
+import type { Database } from "~/types/database.types";
 const form = useTemplateRef("form");
-const supabase = useSupabaseClient();
+const supabase = useSupabaseClient<Database>();
 type Schema = z.output<typeof ChangePasswordSchema>;
 
 const state = reactive<Partial<Schema>>({
@@ -38,7 +39,11 @@ async function UpdatePassword(password: string) {
     });
   }
 }
-
+function resetStates() {
+  state.newPassword = "";
+  state.confirmPassword = "";
+  form.value?.clear();
+}
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   if (event.data.newPassword !== event.data.confirmPassword) {
     toast.add({
@@ -47,6 +52,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       color: "error",
       duration: 2000,
     });
+    resetStates();
     return;
   } else {
     await UpdatePassword(event.data.newPassword);
@@ -91,26 +97,11 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
           />
         </UFormField>
       </div>
-      <div class="flex justify-end pt-4">
-        <UButton
-          type="submit"
-          class="bg-brand-600 text-brand-50 hover:bg-brand-700 px-4 py-2 uppercase hover:cursor-pointer"
-          size="lg"
-        >
-          Update Password
-        </UButton>
-        <UButton
-          class="bg-grey-200 text-grey-900 hover:bg-grey-50 ml-2 px-4 py-2 uppercase hover:cursor-pointer"
-          size="lg"
-          @click="
-            state.confirmPassword = '';
-            state.newPassword = '';
-            form?.clear();
-          "
-        >
-          Cancel
-        </UButton>
-      </div>
+      <FormsButtonNav
+        submit-text="Update Password"
+        cancel-text="Cancel"
+        @click.stop="resetStates"
+      />
     </UForm>
   </div>
 </template>

@@ -10,7 +10,7 @@ type Schema = z.output<typeof UpdateDataSchema>;
 
 const state = reactive<Partial<Schema>>({
   email: user.value?.email || "",
-  userName: undefined,
+  userName: user.value?.user_metadata?.name || "",
   avatar: undefined,
 });
 const toast = useToast();
@@ -86,8 +86,14 @@ async function UpdateUser(userName: string, avatar: File) {
     console.error("Error updating user:", error);
   }
 }
-
+function resetStates() {
+  state.userName = user.value?.user_metadata?.name || "";
+  state.avatar = undefined;
+  form?.value?.clear();
+  console.log("Form reset");
+}
 async function onSubmit(event: FormSubmitEvent<Schema>) {
+  console.log("Form submitted:", event.data);
   await UpdateUser(event.data.userName as string, event.data.avatar as File);
 }
 </script>
@@ -100,7 +106,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       :schema="UpdateDataSchema"
       :state="state"
       class="bg-grey-100 space-y-2 rounded-sm px-4 py-2"
-      @submit="onSubmit"
+      @submit.stop="onSubmit"
     >
       <div class="border-b-grey-200 flex gap-12 border-b py-4">
         <label for="email" class="w-1/5 font-semibold">Email</label>
@@ -137,7 +143,12 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
           />
         </UFormField>
       </div>
-      <div class="flex justify-end pt-4">
+      <FormsButtonNav
+        submit-text="Update Data"
+        cancel-text="Cancel"
+        @click.stop="resetStates"
+      />
+      <!-- <div class="flex justify-end pt-4">
         <UButton
           type="submit"
           class="bg-brand-600 text-brand-50 hover:bg-brand-700 px-4 py-2 uppercase hover:cursor-pointer"
@@ -157,7 +168,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         >
           Cancel
         </UButton>
-      </div>
+      </div> -->
     </UForm>
   </div>
 </template>
