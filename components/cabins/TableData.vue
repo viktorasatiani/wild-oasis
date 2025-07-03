@@ -185,7 +185,7 @@ function getRowItems(row: Row<Cabin>) {
       :data="cabins"
       :columns="columns"
       :ui="{
-        root: 'p-4',
+        root: 'p-4 max-h-[70dvh] ',
         td: 'p-1',
       }"
     />

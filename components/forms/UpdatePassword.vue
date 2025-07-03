@@ -2,7 +2,19 @@
 import type * as z from "zod";
 import type { FormSubmitEvent } from "@nuxt/ui";
 import type { Database } from "~/types/database.types";
-const form = useTemplateRef("form");
+const InputObject = [
+  {
+    label: "New Password",
+    type: "password",
+    id: "newPassword",
+  },
+  {
+    label: "Confirm Password",
+    type: "password",
+    id: "confirmPassword",
+  },
+];
+const form = useTemplateRef<HTMLFormElement>("form");
 const supabase = useSupabaseClient<Database>();
 type Schema = z.output<typeof ChangePasswordSchema>;
 
@@ -70,30 +82,19 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       class="bg-grey-100 space-y-2 rounded-sm px-4 py-2"
       @submit="onSubmit"
     >
-      <div class="border-b-grey-200 flex gap-12 border-b py-4">
-        <label for="newPassword" class="w-1/5 font-semibold"
-          >New Password</label
-        >
-        <UFormField name="newPassword">
+      <div
+        v-for="item in InputObject"
+        :key="item.id"
+        class="border-b-grey-200 flex gap-12 border-b py-4"
+      >
+        <label :for="item.id" class="w-1/5 font-semibold">{{
+          item.label
+        }}</label>
+        <UFormField :name="item.id">
           <UInput
-            id="newPassword"
-            v-model="state.newPassword"
-            type="password"
-          />
-        </UFormField>
-      </div>
-      <div class="border-b-grey-200 flex gap-12 border-b py-4">
-        <label for="confirmPassword" class="w-1/5 font-semibold"
-          >Confirm Password</label
-        >
-        <UFormField name="confirmPassword">
-          <UInput
-            id="confirmPassword"
-            v-model="state.confirmPassword"
-            type="password"
-            :ui="{
-              base: ' disabled:bg-grey-50/10',
-            }"
+            :id="item.id"
+            v-model="state[item.id as keyof typeof state]"
+            :type="item.type"
           />
         </UFormField>
       </div>

@@ -1,10 +1,8 @@
 <template>
-  <UApp>
+  <UApp class="box-content h-screen w-screen overflow-scroll">
     <NuxtLoadingIndicator :duration="1000" color="green" :throttle="500" />
     <NuxtLayout>
-      <div>
-        <NuxtPage />
-      </div>
+      <NuxtPage />
     </NuxtLayout>
   </UApp>
 </template>

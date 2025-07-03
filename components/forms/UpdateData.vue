@@ -148,27 +148,6 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         cancel-text="Cancel"
         @click.stop="resetStates"
       />
-      <!-- <div class="flex justify-end pt-4">
-        <UButton
-          type="submit"
-          class="bg-brand-600 text-brand-50 hover:bg-brand-700 px-4 py-2 uppercase hover:cursor-pointer"
-          size="lg"
-        >
-          Update Data
-        </UButton>
-        <UButton
-          class="bg-grey-200 text-grey-900 hover:bg-grey-50 ml-2 px-4 py-2 uppercase hover:cursor-pointer"
-          size="lg"
-          @click="
-            state.email = '';
-            state.userName = '';
-            state.avatar = undefined;
-            form?.clear();
-          "
-        >
-          Cancel
-        </UButton>
-      </div> -->
     </UForm>
   </div>
 </template>
