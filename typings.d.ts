@@ -22,6 +22,19 @@ declare global {
     name: string | undefined;
     price: number | undefined;
   };
+
+  type Booking = {
+    id: number;
+    created_at: string | null;
+    startDate: string | null;
+    endDate: string | null;
+    numNights: number | null;
+    numGuests: number | null;
+    totalPrice: number | null;
+    status: string | null;
+    guests: { fullName: string | null; email: string | null } | null;
+    cabins: { name: string | null } | null;
+  };
 }
 
 export {};

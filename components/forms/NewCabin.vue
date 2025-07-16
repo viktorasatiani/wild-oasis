@@ -128,9 +128,10 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     <div class="border-b-grey-200 flex gap-12 border-b py-4">
       <label for="capacity" class="w-1/5 font-semibold">Capacity</label>
       <UFormField name="capacity">
-        <UInputNumber
+        <UInput
           id="capacity"
           v-model="state.capacity"
+          type="number"
           color="info"
           :ui="{
             base: ' disabled:bg-grey-50/10',
@@ -141,9 +142,10 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     <div class="border-b-grey-200 flex gap-12 border-b py-4">
       <label for="price" class="w-1/5 font-semibold">Price</label>
       <UFormField name="price">
-        <UInputNumber
+        <UInput
           id="price"
           v-model="state.price"
+          type="number"
           color="info"
           :ui="{
             base: ' disabled:bg-grey-50/10',
@@ -154,9 +156,10 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     <div class="border-b-grey-200 flex gap-12 border-b py-4">
       <label for="discount" class="w-1/5 font-semibold">Discount</label>
       <UFormField name="discount">
-        <UInputNumber
+        <UInput
           id="discount"
           v-model="state.discount"
+          type="number"
           color="info"
           :ui="{
             base: ' disabled:bg-grey-50/10',

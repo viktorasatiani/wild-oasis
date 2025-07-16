@@ -3,8 +3,8 @@ import type { TableColumn } from "@nuxt/ui";
 import type { Row } from "@tanstack/vue-table";
 import type { Database } from "~/types/database.types";
 const supabase = useSupabaseClient<Database>();
-const { cabins, refresh } = defineProps<{
-  cabins: Cabin[];
+const { bookings, refresh } = defineProps<{
+  bookings: Booking[];
   refresh: () => void;
 }>();
 
@@ -15,7 +15,7 @@ const toast = useToast();
 async function handleDeleteCabin(id: number) {
   console.log("Deleting cabin with ID:", id);
   try {
-    const { error } = await supabase.from("cabins").delete().eq("id", id);
+    const { error } = await supabase.from("bookings").delete().eq("id", id);
 
     if (error) {
       throw error;
@@ -31,27 +31,16 @@ async function handleDeleteCabin(id: number) {
     });
   }
 }
-const columns: TableColumn<Cabin>[] = [
+const columns: TableColumn<Booking>[] = [
   {
-    accessorKey: "image",
-    header: "Image",
-    cell: ({ row }) => {
-      return h("img", {
-        src: row.getValue("image"),
-        alt: row.getValue("name"),
-        class: "w-18 h-18 object-cover",
-      });
-    },
-  },
-  {
-    accessorKey: "name",
+    accessorKey: "cabins.name",
     header: ({ column }) => {
       const isSorted = column.getIsSorted();
 
       return h(UButton, {
         color: "neutral",
         variant: "ghost",
-        label: "Name",
+        label: "Cabin",
         icon: isSorted
           ? isSorted === "asc"
             ? "i-lucide-arrow-up-narrow-wide"
@@ -63,14 +52,14 @@ const columns: TableColumn<Cabin>[] = [
     },
   },
   {
-    accessorKey: "capacity",
+    accessorKey: "guests.fullName",
     header: ({ column }) => {
       const isSorted = column.getIsSorted();
 
       return h(UButton, {
         color: "neutral",
         variant: "ghost",
-        label: "Capacity",
+        label: "Guest",
         icon: isSorted
           ? isSorted === "asc"
             ? "i-lucide-arrow-up-narrow-wide"
@@ -82,14 +71,14 @@ const columns: TableColumn<Cabin>[] = [
     },
   },
   {
-    accessorKey: "price",
+    accessorKey: "startDate",
     header: ({ column }) => {
       const isSorted = column.getIsSorted();
 
       return h(UButton, {
         color: "neutral",
         variant: "ghost",
-        label: "Price",
+        label: "Dates",
         icon: isSorted
           ? isSorted === "asc"
             ? "i-lucide-arrow-up-narrow-wide"
@@ -99,20 +88,16 @@ const columns: TableColumn<Cabin>[] = [
         onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
       });
     },
-    cell: ({ row }) => {
-      const price = row.getValue("price") as number;
-      return `${price.toFixed(2)} $`;
-    },
   },
   {
-    accessorKey: "discount",
+    accessorKey: "totalPrice",
     header: ({ column }) => {
       const isSorted = column.getIsSorted();
 
       return h(UButton, {
         color: "neutral",
         variant: "ghost",
-        label: "Discount",
+        label: "Amount",
         icon: isSorted
           ? isSorted === "asc"
             ? "i-lucide-arrow-up-narrow-wide"
@@ -123,8 +108,8 @@ const columns: TableColumn<Cabin>[] = [
       });
     },
     cell: ({ row }) => {
-      const discount = row.getValue("discount") as number;
-      return discount !== 0 ? `${discount.toFixed(2)} $` : "_";
+      const totalPrice = row.getValue("totalPrice") as number;
+      return `${totalPrice.toFixed(2)} $`;
     },
   },
   {
@@ -156,13 +141,13 @@ const columns: TableColumn<Cabin>[] = [
   },
 ];
 
-function getRowItems(row: Row<Cabin>) {
+function getRowItems(row: Row<Booking>) {
   return [
     {
       label: "Edit",
       icon: "heroicons-solid:wrench-screwdriver",
       onSelect() {
-        navigateTo(`/edit-cabin/${row.original.id}`);
+        navigateTo(`/edit-booking/${row.original.id}`);
       },
     },
 
@@ -182,7 +167,7 @@ function getRowItems(row: Row<Cabin>) {
   <div class="w-full">
     <UTable
       ref="table"
-      :data="cabins"
+      :data="bookings"
       :columns="columns"
       :ui="{
         root: 'p-4 max-h-[70dvh] ',

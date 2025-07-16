@@ -34,7 +34,7 @@ const { data: cabinData } = await useAsyncData<Cabin[] | null>(
     </div>
     <div
       v-if="cabinData"
-      class="border-brand-900/10 mt-14 flex h-full w-full max-w-[1000px] gap-8 border px-6 py-10 shadow-2xl"
+      class="border-brand-900/10 mt-14 flex h-full w-full max-w-full gap-8 border px-6 py-10 shadow-2xl"
     >
       <NuxtImg
         fit="cover"

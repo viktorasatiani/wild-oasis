@@ -40,3 +40,10 @@ export const CreateCabinSchema = z.object({
   description: z.string().optional(),
   image: z.instanceof(File).optional(),
 });
+
+export const UpdateSettingsSchema = z.object({
+  breakfastPrice: z.number().min(0, "Breakfast price must be at least 0"),
+  maxGuestsPerBooking: z.number().min(3, "Must be at least 3 characters"),
+  maxBookingLength: z.number().min(1, "Must be at least 1"),
+  minBookingLength: z.number().min(1, "Must be at least 1"),
+});
