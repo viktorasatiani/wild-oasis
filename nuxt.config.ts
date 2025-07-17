@@ -18,6 +18,18 @@ export default defineNuxtConfig({
     typeCheck: true,
     strict: true,
   },
+
+  runtimeConfig: {
+    // Private keys (only available on server-side)
+    supabaseServiceKey: process.env.SUPABASE_SERVICE_KEY,
+
+    // Public keys (exposed to client-side)
+    public: {
+      supabaseUrl: process.env.SUPABASE_URL,
+      supabaseKey: process.env.SUPABASE_KEY,
+    },
+  },
+
   css: ["~/assets/css/main.css"],
   vite: {
     plugins: [tailwindcss()],

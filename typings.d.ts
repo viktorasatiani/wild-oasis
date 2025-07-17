@@ -35,6 +35,20 @@ declare global {
     guests: { fullName: string | null; email: string | null } | null;
     cabins: { name: string | null } | null;
   };
+
+  type BookingTable = {
+    id: number;
+    created_at: string;
+    startDate: string | null;
+    endDate: string | null;
+    numNights: number | null;
+    numGuests: number | null;
+    totalPrice: number | null;
+    status: string | null;
+    guestsName: string | null | undefined;
+    guestsEmail: string | null | undefined;
+    cabinsId: string | null | undefined;
+  };
 }
 
 export {};

@@ -1,0 +1,68 @@
+const imageUrl = `https://inqjbliibfgtyktwpleg.supabase.co/storage/v1/object/public/images//`;
+
+export const cabins = [
+  {
+    id: 1,
+    name: "001",
+    capacity: 2,
+    price: 250,
+    discount: 0,
+    image: imageUrl + "cabin-001.jpg",
+  },
+  {
+    id: 2,
+    name: "002",
+    capacity: 2,
+    price: 350,
+    discount: 25,
+    image: imageUrl + "cabin-002.jpg",
+  },
+  {
+    id: 3,
+    name: "003",
+    capacity: 4,
+    price: 300,
+    discount: 0,
+    image: imageUrl + "cabin-003.jpg",
+  },
+  {
+    id: 4,
+    name: "004",
+    capacity: 4,
+    price: 500,
+    discount: 50,
+    image: imageUrl + "cabin-004.jpg",
+  },
+  {
+    id: 5,
+    name: "005",
+    capacity: 6,
+    price: 350,
+    discount: 0,
+    image: imageUrl + "cabin-005.jpg",
+  },
+  {
+    id: 6,
+    name: "006",
+    capacity: 6,
+    price: 800,
+    discount: 100,
+    image: imageUrl + "cabin-006.jpg",
+  },
+  {
+    id: 7,
+    name: "007",
+    capacity: 8,
+    price: 600,
+    discount: 100,
+    image: imageUrl + "cabin-007.jpg",
+  },
+  {
+    id: 8,
+    name: "008",
+    capacity: 10,
+    price: 1400,
+    discount: 0,
+    image: imageUrl + "cabin-008.jpg",
+  },
+];

@@ -4,11 +4,12 @@ import type { Row } from "@tanstack/vue-table";
 import type { Database } from "~/types/database.types";
 const supabase = useSupabaseClient<Database>();
 const { bookings, refresh } = defineProps<{
-  bookings: Booking[];
+  bookings: BookingTable[];
   refresh: () => void;
 }>();
 
 const UButton = resolveComponent("UButton");
+const UBadge = resolveComponent("UBadge");
 const UDropdownMenu = resolveComponent("UDropdownMenu");
 const toast = useToast();
 
@@ -31,9 +32,9 @@ async function handleDeleteCabin(id: number) {
     });
   }
 }
-const columns: TableColumn<Booking>[] = [
+const columns: TableColumn<BookingTable>[] = [
   {
-    accessorKey: "cabins.name",
+    accessorKey: "cabinsId",
     header: ({ column }) => {
       const isSorted = column.getIsSorted();
 
@@ -50,9 +51,13 @@ const columns: TableColumn<Booking>[] = [
         onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
       });
     },
+    cell: ({ row }) => {
+      const cabinName = row.getValue("cabinsId") as string;
+      return h("span", { class: "capitalize  px-10" }, cabinName);
+    },
   },
   {
-    accessorKey: "guests.fullName",
+    accessorKey: "guestsName",
     header: ({ column }) => {
       const isSorted = column.getIsSorted();
 
@@ -78,7 +83,7 @@ const columns: TableColumn<Booking>[] = [
       return h(UButton, {
         color: "neutral",
         variant: "ghost",
-        label: "Dates",
+        label: "Start Date",
         icon: isSorted
           ? isSorted === "asc"
             ? "i-lucide-arrow-up-narrow-wide"
@@ -87,6 +92,67 @@ const columns: TableColumn<Booking>[] = [
         class: "-mx-2.5",
         onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
       });
+    },
+    cell: ({ row }) => {
+      const startDate = new Date(row.getValue("startDate") as string);
+
+      return `${startDate.toLocaleDateString()}`;
+    },
+    meta: { class: { td: "text-center" } },
+  },
+  {
+    accessorKey: "endDate",
+    header: ({ column }) => {
+      const isSorted = column.getIsSorted();
+
+      return h(UButton, {
+        color: "neutral",
+        variant: "ghost",
+        label: "End Date",
+        icon: isSorted
+          ? isSorted === "asc"
+            ? "i-lucide-arrow-up-narrow-wide"
+            : "i-lucide-arrow-down-wide-narrow"
+          : "i-lucide-arrow-up-down",
+        class: "-mx-2.5",
+        onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
+      });
+    },
+    cell: ({ row }) => {
+      const endDate = new Date(row.getValue("endDate") as string);
+
+      return `${endDate.toLocaleDateString()}`;
+    },
+    meta: { class: { td: "text-center" } },
+  },
+  {
+    accessorKey: "status",
+    header: ({ column }) => {
+      const isSorted = column.getIsSorted();
+
+      return h(UButton, {
+        color: "neutral",
+        variant: "ghost",
+        label: "Status",
+        icon: isSorted
+          ? isSorted === "asc"
+            ? "i-lucide-arrow-up-narrow-wide"
+            : "i-lucide-arrow-down-wide-narrow"
+          : "i-lucide-arrow-up-down",
+        class: "-mx-2.5",
+        onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
+      });
+    },
+    cell: ({ row }) => {
+      const color = {
+        checkedIn: "success" as const,
+        unconfirmed: "info" as const,
+        checkedOut: "neutral" as const,
+      }[row.getValue("status") as string];
+
+      return h(UBadge, { class: "capitalize", variant: "subtle", color }, () =>
+        row.getValue("status"),
+      );
     },
   },
   {
@@ -109,7 +175,12 @@ const columns: TableColumn<Booking>[] = [
     },
     cell: ({ row }) => {
       const totalPrice = row.getValue("totalPrice") as number;
-      return `${totalPrice.toFixed(2)} $`;
+      return `${totalPrice !== null ? totalPrice.toFixed(2) : ""} $`;
+    },
+    meta: {
+      class: {
+        td: "px-10",
+      },
     },
   },
   {
@@ -141,7 +212,7 @@ const columns: TableColumn<Booking>[] = [
   },
 ];
 
-function getRowItems(row: Row<Booking>) {
+function getRowItems(row: Row<BookingTable>) {
   return [
     {
       label: "Edit",

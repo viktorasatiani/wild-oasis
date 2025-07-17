@@ -1,3 +1,5 @@
+<script setup lang="ts"></script>
+
 <template>
   <div class="bg-grey-50 flex h-screen w-screen">
     <aside
@@ -5,6 +7,7 @@
     >
       <WildOasisLogo />
       <PageNav />
+      <SupabaseUploader />
     </aside>
     <div class="flex w-full flex-col">
       <UserNav />

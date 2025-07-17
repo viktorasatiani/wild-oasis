@@ -14,7 +14,7 @@ const {
     .select(
       "id, created_at, startDate, endDate, numNights, numGuests, totalPrice, status,guests(fullName,email),cabins(name)",
     )
-    .in("status", ["unconfirmed", "checked_in", "checked_out"]);
+    .in("status", ["unconfirmed", "checkedIn", "checkedOut"]);
   return data;
 });
 if (error.value) {
@@ -25,6 +25,26 @@ if (error.value) {
   });
 }
 console.log("Bookings data:", bookings.value);
+const tableBookings = computed(() => {
+  return bookings.value
+    ? bookings.value.flatMap((booking) => {
+        return {
+          created_at: booking.created_at,
+          endDate: booking.endDate,
+          startDate: booking.startDate,
+          numGuests: booking.numGuests,
+          numNights: booking.numNights,
+          totalPrice: booking.totalPrice,
+          status: booking.status,
+          id: booking.id,
+          guestsName: booking.guests?.fullName,
+          guestsEmail: booking.guests?.email,
+          cabinsId: booking.cabins?.name,
+        };
+      })
+    : [];
+});
+console.log("Table bookings data:", tableBookings.value);
 </script>
 
 <template>
@@ -33,7 +53,7 @@ console.log("Bookings data:", bookings.value);
       <h1 class="text-2xl font-bold">All Bookings</h1>
     </div>
     <div v-if="bookings">
-      <BookingsTableData :bookings :refresh="refresh" />
+      <BookingsTableData :bookings="tableBookings" :refresh="refresh" />
     </div>
   </div>
 </template>
