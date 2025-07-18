@@ -13,8 +13,8 @@ const UBadge = resolveComponent("UBadge");
 const UDropdownMenu = resolveComponent("UDropdownMenu");
 const toast = useToast();
 
-async function handleDeleteCabin(id: number) {
-  console.log("Deleting cabin with ID:", id);
+async function handleDeleteBooking(id: number) {
+  console.log("Deleting booking with ID:", id);
   try {
     const { error } = await supabase.from("bookings").delete().eq("id", id);
 
@@ -22,12 +22,12 @@ async function handleDeleteCabin(id: number) {
       throw error;
     }
     toast.add({
-      title: "Cabin deleted successfully",
+      title: "Booking deleted successfully",
       color: "success",
     });
   } catch (error) {
     toast.add({
-      title: `${error} Error deleting cabin`,
+      title: `${error} Error deleting booking`,
       color: "error",
     });
   }
@@ -215,18 +215,25 @@ const columns: TableColumn<BookingTable>[] = [
 function getRowItems(row: Row<BookingTable>) {
   return [
     {
-      label: "Edit",
-      icon: "heroicons-solid:wrench-screwdriver",
+      label: "See Details",
+      icon: "heroicons-solid:eye",
       onSelect() {
-        navigateTo(`/edit-booking/${row.original.id}`);
+        navigateTo(`/booking-details/${row.original.id}`);
+      },
+    },
+    {
+      label: "Check In",
+      icon: "heroicons-solid:arrow-down-on-square",
+      onSelect() {
+        navigateTo(`/check-in/${row.original.id}`);
       },
     },
 
     {
-      label: "Delete",
+      label: "Delete Booking",
       icon: "heroicons-solid:trash",
       onSelect: async () => {
-        await handleDeleteCabin(Number(row.original.id));
+        await handleDeleteBooking(Number(row.original.id));
         refresh();
       },
     },

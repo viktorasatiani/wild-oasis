@@ -3,24 +3,29 @@ import { useSupabaseClient } from "#imports";
 import { useRoute } from "vue-router";
 import type { Database } from "~/types/database.types";
 const route = useRoute();
+
 const id = route.params.id as string;
+const userId = computed(() => `user-${route.params.id}`);
 
 const supabase = useSupabaseClient<Database>();
 
-const { data: cabinData } = await useAsyncData<Cabin[] | null>(
-  "cabin",
+const { data: cabinData } = await useAsyncData<Cabin[]>(
+  `${userId.value}`,
   async () => {
     const { data } = await supabase
       .from("cabins")
       .select("*")
       .eq("id", Number(id));
-    return data as Cabin[] | null;
+    return data as Cabin[];
   },
 );
 </script>
 
 <template>
-  <div class="flex h-full flex-col items-center justify-center py-8">
+  <div
+    v-if="cabinData"
+    class="flex h-full flex-col items-center justify-center py-8"
+  >
     <div class="mb-4 flex w-full items-center justify-start px-10">
       <div class="basis-[45%] justify-self-start">
         <UButton
@@ -33,12 +38,12 @@ const { data: cabinData } = await useAsyncData<Cabin[] | null>(
       <h1 class="text-2xl font-bold">Edit Cabin</h1>
     </div>
     <div
-      v-if="cabinData"
+      v-if="cabinData[0]"
       class="border-brand-900/10 mt-14 flex h-full w-full max-w-full gap-8 border px-6 py-10 shadow-2xl"
     >
       <NuxtImg
         fit="cover"
-        :src="cabinData[0].image ?? undefined"
+        :src="cabinData[0]?.image ?? ''"
         width="500"
         height="300"
       />

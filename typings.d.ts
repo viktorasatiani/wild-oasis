@@ -19,8 +19,10 @@ declare global {
     capacity: number | undefined;
     discount: number | undefined;
     id: number;
-    name: string | undefined;
+    name: string;
+    image: string | null | undefined;
     price: number | undefined;
+    createad_at?: string | null | undefined;
   };
 
   type Booking = {
@@ -49,6 +51,28 @@ declare global {
     guestsEmail: string | null | undefined;
     cabinsId: string | null | undefined;
   };
+
+  type BookingDetails =
+    | {
+        cabinId: number | null;
+        cabins: { name: string | null };
+
+        cabinPrice: number | null;
+        created_at: string;
+        endDate: string | null;
+        extrasPrice: number | null;
+        guestId: number | null;
+        hasBreakfast: boolean | null;
+        id: number;
+        isPaid: boolean | null;
+        numGuests: number | null;
+        numNights: number | null;
+        observations: string | null;
+        startDate: string | null;
+        status: string | null;
+        totalPrice: number | null;
+      }[]
+    | null;
 }
 
 export {};

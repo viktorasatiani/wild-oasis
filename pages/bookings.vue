@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Database } from "~/types/database.types";
+import type { Database } from "../types/database.types";
 
 const supabase = useSupabaseClient<Database>();
 const toast = useToast();
@@ -24,7 +24,6 @@ if (error.value) {
     color: "error",
   });
 }
-console.log("Bookings data:", bookings.value);
 const tableBookings = computed(() => {
   return bookings.value
     ? bookings.value.flatMap((booking) => {
@@ -40,11 +39,13 @@ const tableBookings = computed(() => {
           guestsName: booking.guests?.fullName,
           guestsEmail: booking.guests?.email,
           cabinsId: booking.cabins?.name,
+          cabins: {
+            name: booking.cabins?.name || null,
+          },
         };
       })
     : [];
 });
-console.log("Table bookings data:", tableBookings.value);
 </script>
 
 <template>

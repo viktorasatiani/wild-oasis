@@ -1,10 +1,11 @@
 <script setup lang="ts">
+import { ref } from "vue";
 import { isFuture, isPast, isToday } from "date-fns";
-import { bookings } from "~/composables/data-bookings";
-import { cabins } from "~/composables/data-cabins";
-import { guests } from "~/composables/data-guests";
-import { subtractDates } from "~/composables/helpers";
-import type { Database } from "~/types/database.types";
+import { bookings } from "../composables/data-bookings";
+import { cabins } from "../composables/data-cabins";
+import { guests } from "../composables/data-guests";
+import { subtractDates } from "../composables/helpers";
+import type { Database } from "../types/database.types";
 const supabase = useSupabaseClient<Database>();
 async function deleteGuests() {
   const { error } = await supabase.from("guests").delete().gt("id", 0);
