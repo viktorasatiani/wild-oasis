@@ -8,19 +8,26 @@ const id = route.params.id as string;
 const userId = computed(() => `user-${route.params.id}`);
 
 const {
-  data: bookings,
+  data: booking,
   error,
   execute: refresh,
-} = await useAsyncData(userId, async () => {
+} = await useAsyncData<BookingDetails>(userId, async () => {
   const { data } = await supabase
     .from("bookings")
-    .select("*, cabins(name)")
+    .select("*, cabins(name), guests(fullName, email,nationalID,countryFlag)")
     .eq("id", Number(id));
 
-  return data as BookingDetails;
+  return data?.[0] as BookingDetails;
 });
+if (error.value) {
+  useToast().add({
+    title: "Error fetching booking details",
+    description: error.value.message,
+    color: "error",
+  });
+}
 const statusColor = computed(() => {
-  switch (bookings.value?.[0]?.status) {
+  switch (booking.value?.status) {
     case "unconfirmed":
       return "info";
     case "checkedIn":
@@ -32,16 +39,16 @@ const statusColor = computed(() => {
   }
 });
 
-console.log("Booking data:", bookings.value);
+console.log("Booking data:", booking.value);
 </script>
 
 <template>
-  <div v-if="bookings" class="flex flex-col">
-    <div v-if="bookings[0]" class="flex items-center justify-between p-8">
+  <div v-if="booking" class="mx-auto flex w-[calc(100%-20rem)] flex-col">
+    <div class="flex items-center justify-between p-8">
       <div class="flex items-center justify-center gap-4">
-        <h1 class="text-3xl font-bold">Booking #{{ bookings[0].id }}</h1>
+        <h1 class="text-3xl font-bold">Booking #{{ booking.id }}</h1>
         <UBadge :color="statusColor">{{
-          bookings[0].status?.toUpperCase()
+          booking.status?.toUpperCase()
         }}</UBadge>
       </div>
       <div
@@ -63,27 +70,78 @@ console.log("Booking data:", bookings.value);
       <div
         class="bg-brand-500 flex items-center justify-between rounded-sm px-8 py-4"
       >
-        <div class="flex items-center justify-center gap-6 text-xl font-bold">
+        <div
+          class="flex items-center justify-center gap-6 text-xl font-bold text-white"
+        >
           <UIcon name="heroicons-solid:building-office" class="size-10" />
           <p>
-            {{ bookings[0]?.numNights }} nights in Cabin
-            {{ bookings[0]?.cabins?.name }}
+            {{ booking?.numNights }} nights in Cabin
+            {{ booking?.cabins?.name }}
           </p>
         </div>
-        <p>
+        <p class="text-white">
           <span class="font-semibold"> From </span>
           {{
-            bookings[0]?.startDate !== undefined &&
-            format(bookings[0]?.startDate, "dd/MMM/yyyy")
+            booking?.startDate !== null &&
+            format(booking.startDate, "dd/MMM/yyyy")
           }}
           <span class="font-semibold"> - To </span>
           {{
-            bookings[0]?.endDate !== undefined &&
-            format(bookings[0]?.endDate, "dd/MMM/yyyy")
+            booking?.endDate !== null && format(booking.endDate, "dd/MMM/yyyy")
           }}
         </p>
       </div>
-      <div>content</div>
+      <div class="flex flex-col gap-4 px-12 py-8">
+        <div class="flex items-center gap-2">
+          <NuxtImg
+            :src="booking?.guests?.countryFlag ?? ''"
+            width="30"
+            height="50"
+          />
+          <p class="flex items-center gap-2">
+            {{ booking?.guests?.fullName }} +
+            {{ booking?.numGuests ? booking.numGuests - 1 : 0 }}
+            <span class="text-grey-700/40 font-bold"
+              >{{ booking?.guests?.email }} - National ID:
+              {{ booking?.guests?.nationalID }}</span
+            >
+          </p>
+        </div>
+        <div class="flex items-start gap-2">
+          <UIcon name="heroicons-solid:chat" class="text-brand-200 size-6" />
+          <p>
+            Observations: <span>{{ booking?.observations }}</span>
+          </p>
+        </div>
+        <div class="flex items-center gap-2">
+          <UIcon
+            name="heroicons-solid:check-circle"
+            class="text-brand-200 size-6"
+          />
+          <p>
+            Breakfast Included ?
+            <span>{{ booking?.hasBreakfast ? "Yes" : "No" }}</span>
+          </p>
+        </div>
+        <div
+          :class="`${booking?.status === 'unconfirmed' ? 'bg-yellow-100' : 'bg-green-600'} flex justify-between rounded-sm p-4 font-semibold uppercase`"
+        >
+          <div class="flex items-center gap-2">
+            <UIcon name="heroicons:currency-dollar" class="size-6" />
+            <p>total price ${{ booking?.totalPrice?.toPrecision(6) }}</p>
+          </div>
+          <div>
+            {{ statusColor === "info" ? "will pay at property" : "paid" }}
+          </div>
+        </div>
+        <p class="text-grey-400 text-xs">
+          Booked on
+          {{
+            booking?.created_at &&
+            format(booking?.created_at, "E, MMM dd yyyy, h:mm a")
+          }}
+        </p>
+      </div>
     </div>
   </div>
 </template>

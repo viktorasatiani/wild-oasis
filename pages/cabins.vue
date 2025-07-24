@@ -11,6 +11,7 @@ const {
   const { data } = await supabase.from("cabins").select("*");
   return data;
 });
+
 if (error.value) {
   toast.add({
     title: "Error fetching cabins",
@@ -18,6 +19,8 @@ if (error.value) {
     color: "error",
   });
 }
+
+console.log("Cabins data:", cabins.value);
 </script>
 <template>
   <div class="flex h-full flex-col gap-8 px-14 pt-8">

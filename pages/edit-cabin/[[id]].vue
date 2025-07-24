@@ -9,16 +9,17 @@ const userId = computed(() => `user-${route.params.id}`);
 
 const supabase = useSupabaseClient<Database>();
 
-const { data: cabinData } = await useAsyncData<Cabin[]>(
+const { data: cabinData } = await useAsyncData<Cabin>(
   `${userId.value}`,
   async () => {
     const { data } = await supabase
       .from("cabins")
       .select("*")
       .eq("id", Number(id));
-    return data as Cabin[];
+    return data?.[0] as Cabin;
   },
 );
+console.log(cabinData.value, "cabinData");
 </script>
 
 <template>
@@ -38,16 +39,15 @@ const { data: cabinData } = await useAsyncData<Cabin[]>(
       <h1 class="text-2xl font-bold">Edit Cabin</h1>
     </div>
     <div
-      v-if="cabinData[0]"
       class="border-brand-900/10 mt-14 flex h-full w-full max-w-full gap-8 border px-6 py-10 shadow-2xl"
     >
       <NuxtImg
         fit="cover"
-        :src="cabinData[0]?.image ?? ''"
+        :src="cabinData?.image ?? ''"
         width="500"
         height="300"
       />
-      <FormsUpdateCabin :cabin-data="cabinData[0]" />
+      <FormsUpdateCabin :cabin-data="cabinData" />
     </div>
   </div>
 </template>
