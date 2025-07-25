@@ -7,7 +7,6 @@ const PageNavLinks: NavLinks[] = [
     icon: "heroicons-solid:calendar-days",
   },
   { name: "Cabins", path: "/cabins", icon: "heroicons-solid:home-modern" },
-  { name: "Users", path: "/users", icon: "heroicons-solid:user" },
   {
     name: "Settings",
     path: "/settings",

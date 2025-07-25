@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { TableColumn } from "@nuxt/ui";
 import type { Row } from "@tanstack/vue-table";
+import { format } from "date-fns";
 import type { Database } from "~/types/database.types";
 const supabase = useSupabaseClient<Database>();
 const { bookings, refresh } = defineProps<{
@@ -96,7 +97,7 @@ const columns: TableColumn<BookingTable>[] = [
     cell: ({ row }) => {
       const startDate = new Date(row.getValue("startDate") as string);
 
-      return `${startDate.toLocaleDateString()}`;
+      return `${format(startDate, "dd/MMM/yyyy")}`;
     },
     meta: { class: { td: "text-center" } },
   },
@@ -121,7 +122,7 @@ const columns: TableColumn<BookingTable>[] = [
     cell: ({ row }) => {
       const endDate = new Date(row.getValue("endDate") as string);
 
-      return `${endDate.toLocaleDateString()}`;
+      return `${format(endDate, "dd/MMM/yyyy")}`;
     },
     meta: { class: { td: "text-center" } },
   },
@@ -213,31 +214,51 @@ const columns: TableColumn<BookingTable>[] = [
 ];
 
 function getRowItems(row: Row<BookingTable>) {
-  return [
-    {
-      label: "See Details",
-      icon: "heroicons-solid:eye",
-      onSelect() {
-        navigateTo(`/booking-details/${row.original.id}`);
+  if (row.original.status === "unconfirmed") {
+    return [
+      {
+        label: "See Details",
+        icon: "heroicons-solid:eye",
+        onSelect() {
+          navigateTo(`/booking-details/${row.original.id}`);
+        },
       },
-    },
-    {
-      label: "Check In",
-      icon: "heroicons-solid:arrow-down-on-square",
-      onSelect() {
-        navigateTo(`/check-in/${row.original.id}`);
+      {
+        label: "Check In",
+        icon: "heroicons-solid:arrow-down-on-square",
+        onSelect() {
+          navigateTo(`/check-in/${row.original.id}`);
+        },
       },
-    },
 
-    {
-      label: "Delete Booking",
-      icon: "heroicons-solid:trash",
-      onSelect: async () => {
-        await handleDeleteBooking(Number(row.original.id));
-        refresh();
+      {
+        label: "Delete Booking",
+        icon: "heroicons-solid:trash",
+        onSelect: async () => {
+          await handleDeleteBooking(Number(row.original.id));
+          refresh();
+        },
       },
-    },
-  ];
+    ];
+  } else {
+    return [
+      {
+        label: "See Details",
+        icon: "heroicons-solid:eye",
+        onSelect() {
+          navigateTo(`/booking-details/${row.original.id}`);
+        },
+      },
+      {
+        label: "Delete Booking",
+        icon: "heroicons-solid:trash",
+        onSelect: async () => {
+          await handleDeleteBooking(Number(row.original.id));
+          refresh();
+        },
+      },
+    ];
+  }
 }
 </script>
 

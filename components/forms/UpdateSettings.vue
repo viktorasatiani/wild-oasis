@@ -17,7 +17,7 @@ const {
 });
 if (error.value) {
   toast.add({
-    title: "Error fetching cabins",
+    title: "Error fetching Settings",
     description: error.value.message,
     color: "error",
   });

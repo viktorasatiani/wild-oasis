@@ -76,6 +76,15 @@ declare global {
     status: string | null;
     totalPrice: number | null;
   } | null;
+
+  type Settings = {
+    breakfastPrice: number | null;
+    minBookingLength: number | null;
+    maxBookingLength: number | null;
+    maxGuestsPerBooking: number | null;
+    id: number;
+    created_at: string | null;
+  };
 }
 
 export {};
