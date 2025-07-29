@@ -12,13 +12,11 @@ export default defineNuxtConfig({
     "@nuxt/ui",
     "@nuxtjs/supabase",
   ],
-
   typescript: {
     builder: "vite",
     typeCheck: true,
     strict: true,
   },
-
   runtimeConfig: {
     // Private keys (only available on server-side)
     supabaseServiceKey: process.env.SUPABASE_SERVICE_KEY,
@@ -45,7 +43,6 @@ export default defineNuxtConfig({
     },
     cookiePrefix: "nekot",
   },
-
   fonts: {
     families: [
       {

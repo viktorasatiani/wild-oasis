@@ -8,7 +8,10 @@ const {
   error,
   execute: refresh,
 } = await useAsyncData("cabins", async () => {
-  const { data } = await supabase.from("cabins").select("*");
+  const { data, error } = await supabase.from("cabins").select("*");
+  if (error) {
+    throw error;
+  }
   return data;
 });
 
