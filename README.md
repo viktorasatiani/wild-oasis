@@ -12,6 +12,13 @@ Here’s a README for your Wild Oasis cabin rental admin dashboard, following th
 
 **Wild Oasis** is a modern admin dashboard for managing cabin rentals. Built with Nuxt 4, Vue 3, Supabase, and TailwindCSS, it’s designed for property managers to handle bookings, cabins, guests, and settings, with authentication and a gorgeous dark/light UI.
 
+## 🌐 **Live Demo**
+
+🔗 **[Visit Wild Oasis Live](https://wild-oasis-j2dz.vercel.app/)**
+
+Experience the full functionality of Wild Oasis with our live deployment on Vercel. Check bookings,cabins and so on
+
+
 ---
 
 ## 🚀 Features
