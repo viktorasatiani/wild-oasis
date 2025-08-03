@@ -11,6 +11,7 @@ export default defineNuxtConfig({
     "@nuxt/image",
     "@nuxt/ui",
     "@nuxtjs/supabase",
+    "nuxt-charts",
   ],
   typescript: {
     builder: "vite",

@@ -39,9 +39,9 @@ console.log("Today's activities:", todaysActivities.value);
       <div
         v-for="activity in todaysActivities"
         :key="activity.id"
-        class="border-grey-100 flex items-center gap-3 border-b py-1 first:border-t"
+        class="border-grey-100 flex w-[600px] items-center justify-between gap-3 border-b py-1 first:border-t"
       >
-        <div class="basis-20">
+        <div class="basis-24">
           <UBadge
             class="rounded-full"
             :color="`${activity.endDate !== null && new Date(activity.endDate).toDateString() === new Date().toDateString() ? 'secondary' : 'primary'}`"

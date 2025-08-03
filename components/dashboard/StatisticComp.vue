@@ -65,7 +65,7 @@ const StatisticArray = computed(() => {
 </script>
 
 <template>
-  <div class="mt-8 flex gap-4">
+  <div class="mt-8 flex justify-between gap-4">
     <div
       v-for="item in StatisticArray"
       :key="item.title"

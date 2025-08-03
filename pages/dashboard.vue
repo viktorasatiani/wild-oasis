@@ -26,11 +26,12 @@ if (error.value) {
 </script>
 
 <template>
-  <div class="flex flex-col gap-4 p-12">
+  <div class="flex h-full flex-col justify-start gap-16 px-12 py-20">
     <h1 class="text-2xl font-semibold">Dashboard</h1>
     <DashboardStatisticComp v-if="bookings" :data="bookings" />
-    <div class="flex justify-between">
+    <div class="flex h-full justify-between">
       <DashboardTodayComp v-if="bookings" :data="bookings" />
+      <DashboardPieCharts :data="bookings" />
     </div>
   </div>
 </template>
