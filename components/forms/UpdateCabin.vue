@@ -16,7 +16,7 @@ const isDirty: Ref<boolean | undefined> = computed(() => {
 
 async function UpdateCabin({ cabinData }: { cabinData: UpdateCabin }) {
   try {
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from("cabins")
       .update({
         name: cabinData.name,
@@ -35,12 +35,10 @@ async function UpdateCabin({ cabinData }: { cabinData: UpdateCabin }) {
       duration: 2000,
       "onUpdate:open": (open: boolean) => {
         if (!open) {
-          console.log("Toast closed");
           navigateTo({ name: "cabins" });
         }
       },
     });
-    console.log("Cabin updated successfully:", data);
   } catch (error) {
     console.error("Error updating cabin:", error);
   }
@@ -69,7 +67,6 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       duration: 2000,
     });
   } else {
-    console.log("Updating cabin with data:", event.data);
     await UpdateCabin({
       cabinData: {
         ...cabinData,

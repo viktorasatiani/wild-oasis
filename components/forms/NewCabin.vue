@@ -2,6 +2,7 @@
 import type * as z from "zod";
 import type { FormSubmitEvent } from "@nuxt/ui";
 import type { Database } from "~/types/database.types";
+const emit = defineEmits(["closeModal"]);
 const supabase = useSupabaseClient<Database>();
 type Schema = z.output<typeof CreateCabinSchema>;
 type CreateCabin = {
@@ -63,12 +64,25 @@ async function createCabin({ cabin }: { cabin: CreateCabin }) {
       });
       if (error) {
         throw error;
+      } else {
+        toast.add({
+          title: "Success",
+          description: "Cabin created successfully.",
+          color: "success",
+          duration: 2000,
+          "onUpdate:open": (open: boolean) => {
+            if (!open) {
+              emit("closeModal");
+              navigateTo("/cabins");
+            }
+          },
+        });
       }
     }
   } catch (error) {
     toast.add({
       title: "Error",
-      description: `${error} `,
+      description: `${error} error while creating cabin! Choose another name or try again later.`,
       color: "error",
       duration: 2000,
     });
@@ -95,13 +109,6 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       },
     });
   }
-  toast.add({
-    title: "Success",
-    description: "The form has been submitted.",
-    color: "success",
-    duration: 2000,
-  });
-  console.log(event.data);
 }
 </script>
 
@@ -109,10 +116,12 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   <UForm
     :schema="CreateCabinSchema"
     :state="state"
-    class="space-y-4"
+    class="mx-auto flex max-w-[900px] flex-col justify-center space-y-8 px-24"
     @submit="onSubmit"
   >
-    <div class="border-b-grey-200 flex gap-12 border-b py-4">
+    <div
+      class="border-b-grey-200 flex justify-between gap-12 border-b px-10 py-4"
+    >
       <label for="name" class="w-1/5 font-semibold">Name</label>
       <UFormField name="name">
         <UInput
@@ -125,7 +134,9 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         />
       </UFormField>
     </div>
-    <div class="border-b-grey-200 flex gap-12 border-b py-4">
+    <div
+      class="border-b-grey-200 flex justify-between gap-12 border-b px-10 py-4"
+    >
       <label for="capacity" class="w-1/5 font-semibold">Capacity</label>
       <UFormField name="capacity">
         <UInput
@@ -139,7 +150,9 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         />
       </UFormField>
     </div>
-    <div class="border-b-grey-200 flex gap-12 border-b py-4">
+    <div
+      class="border-b-grey-200 flex justify-between gap-12 border-b px-10 py-4"
+    >
       <label for="price" class="w-1/5 font-semibold">Price</label>
       <UFormField name="price">
         <UInput
@@ -153,7 +166,9 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         />
       </UFormField>
     </div>
-    <div class="border-b-grey-200 flex gap-12 border-b py-4">
+    <div
+      class="border-b-grey-200 flex justify-between gap-12 border-b px-10 py-4"
+    >
       <label for="discount" class="w-1/5 font-semibold">Discount</label>
       <UFormField name="discount">
         <UInput
@@ -168,7 +183,9 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       </UFormField>
     </div>
 
-    <div class="border-b-grey-200 flex gap-12 border-b py-4">
+    <div
+      class="border-b-grey-200 flex justify-between gap-12 border-b px-10 py-4"
+    >
       <label for="avatar" class="w-1/5 font-semibold">Avatar URL</label>
       <UFormField name="avatar">
         <UInput
@@ -185,6 +202,13 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       </UFormField>
     </div>
 
-    <UButton type="submit"> Submit </UButton>
+    <UButton
+      type="submit"
+      class="mx-10 inline w-fit hover:cursor-pointer"
+      size="md"
+      color="secondary"
+    >
+      Submit
+    </UButton>
   </UForm>
 </template>

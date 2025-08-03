@@ -15,7 +15,6 @@ const UDropdownMenu = resolveComponent("UDropdownMenu");
 const toast = useToast();
 
 async function handleDeleteBooking(id: number) {
-  console.log("Deleting booking with ID:", id);
   try {
     const { error } = await supabase.from("bookings").delete().eq("id", id);
 

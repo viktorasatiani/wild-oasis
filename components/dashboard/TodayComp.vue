@@ -29,7 +29,6 @@ const todaysActivities = computed(() => {
     }
   });
 });
-console.log("Today's activities:", todaysActivities.value);
 </script>
 
 <template>

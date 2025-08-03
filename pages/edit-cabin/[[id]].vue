@@ -19,7 +19,6 @@ const { data: cabinData } = await useAsyncData<Cabin>(
     return data?.[0] as Cabin;
   },
 );
-console.log(cabinData.value, "cabinData");
 </script>
 
 <template>

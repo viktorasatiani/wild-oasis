@@ -95,7 +95,6 @@ function deleteBookingToast() {
   });
 }
 async function checkOutBooking(id: string) {
-  console.log("clicked");
   const { error } = await supabase
     .from("bookings")
     .update({ status: "checkedOut" })

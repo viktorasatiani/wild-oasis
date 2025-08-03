@@ -90,10 +90,8 @@ function resetStates() {
   state.userName = user.value?.user_metadata?.name || "";
   state.avatar = undefined;
   form?.value?.clear();
-  console.log("Form reset");
 }
 async function onSubmit(event: FormSubmitEvent<Schema>) {
-  console.log("Form submitted:", event.data);
   await UpdateUser(event.data.userName as string, event.data.avatar as File);
 }
 </script>

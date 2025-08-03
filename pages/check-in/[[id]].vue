@@ -261,7 +261,7 @@ async function checkInBooking(id: string) {
       </div>
     </div>
     <div
-      v-if="status === 'unconfirmed'"
+      v-if="status === 'unconfirmed' && hasBreakfast === false"
       class="bg-grey-100 border-grey-200 mx-auto mt-6 w-[calc(100%-2rem)] rounded-sm border px-4 py-8 shadow-2xl"
     >
       <UCheckbox

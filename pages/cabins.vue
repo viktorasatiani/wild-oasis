@@ -22,8 +22,6 @@ if (error.value) {
     color: "error",
   });
 }
-
-console.log("Cabins data:", cabins.value);
 </script>
 <template>
   <div class="flex h-full flex-col gap-8 px-14 pt-8">
@@ -33,6 +31,6 @@ console.log("Cabins data:", cabins.value);
     <div v-if="cabins">
       <CabinsTableData :cabins :refresh="refresh" />
     </div>
-    <CabinsAddModal />
+    <CabinsAddModal @refresh-table="refresh" />
   </div>
 </template>

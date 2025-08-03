@@ -28,7 +28,6 @@ const numNights8_14 = computed(() => {
   });
 });
 
-console.log("NumNights2:", numNights8_14.value);
 const donutData = ref([
   numNights2.value.length,
   numnights3.value.length,

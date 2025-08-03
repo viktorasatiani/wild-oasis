@@ -22,7 +22,6 @@ if (error.value) {
     color: "error",
   });
 }
-console.log("Settings data:", settings.value);
 
 const form = useTemplateRef("form");
 type Schema = z.output<typeof UpdateSettingsSchema>;
@@ -42,7 +41,6 @@ function resetStates() {
   state.maxBookingLength = settings.value?.maxBookingLength || undefined;
   state.minBookingLength = settings.value?.minBookingLength || undefined;
   form?.value?.clear();
-  console.log("Form reset");
 }
 
 async function updateSettings(data: Schema) {
@@ -80,8 +78,6 @@ async function updateSettings(data: Schema) {
 }
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
-  console.log("Form submitted:", event.data);
-
   if (
     settings.value &&
     settings.value.breakfastPrice === event.data.breakfastPrice &&
@@ -96,7 +92,6 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       duration: 2000,
     });
   } else {
-    console.log("Updating cabin with data:", event.data);
     await updateSettings(event.data);
     resetStates();
   }

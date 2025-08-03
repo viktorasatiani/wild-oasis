@@ -7,14 +7,11 @@ export default defineNuxtRouteMiddleware(async (to) => {
   } = await supabase.auth.getUser();
 
   if (!user && to.path !== "/login") {
-    console.log("User not authenticated, redirecting to login");
     return navigateTo("/login");
   } else if (user && to.path === "/login") {
-    console.log(user, "already logged in");
     return navigateTo("/dashboard");
   }
   if (user && to.path === "/") {
-    console.log("User already logged in, redirecting to dashboard");
     return navigateTo("/dashboard");
   }
 });

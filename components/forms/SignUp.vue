@@ -34,7 +34,6 @@ const signUp = async (values: {
         color: "success",
         "onUpdate:open": (open: boolean) => {
           if (!open) {
-            console.log("Toast closed");
             navigateTo("/dashboard");
           }
         },

@@ -12,18 +12,26 @@ const UButton = resolveComponent("UButton");
 const UDropdownMenu = resolveComponent("UDropdownMenu");
 const toast = useToast();
 
-async function handleDeleteCabin(id: number) {
-  console.log("Deleting cabin with ID:", id);
+async function handleDeleteCabin(id: number, name: string) {
   try {
-    const { error } = await supabase.from("cabins").delete().eq("id", id);
+    const fileName = `cabin-${name}.jpg`;
 
-    if (error) {
-      throw error;
+    const { error: storageError } = await supabase.storage
+      .from("images")
+      .remove([fileName]);
+    if (storageError) {
+      throw storageError;
+    } else {
+      const { error } = await supabase.from("cabins").delete().eq("id", id);
+
+      if (error) {
+        throw error;
+      }
+      toast.add({
+        title: "Cabin deleted successfully",
+        color: "success",
+      });
     }
-    toast.add({
-      title: "Cabin deleted successfully",
-      color: "success",
-    });
   } catch (error) {
     toast.add({
       title: `${error} Error deleting cabin`,
@@ -170,7 +178,10 @@ function getRowItems(row: Row<Cabin>) {
       label: "Delete",
       icon: "heroicons-solid:trash",
       onSelect: async () => {
-        await handleDeleteCabin(Number(row.original.id));
+        await handleDeleteCabin(
+          Number(row.original.id),
+          String(row.original.name),
+        );
         refresh();
       },
     },

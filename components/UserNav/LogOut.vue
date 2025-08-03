@@ -15,7 +15,6 @@ const LogOut = async () => {
       color: "success",
       "onUpdate:open": (open: boolean) => {
         if (!open) {
-          console.log("Toast closed");
           navigateTo("/login");
         }
       },
